@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ov_card3",
+  "position": {
+    "x": 524,
+    "y": 90,
+    "z": 1002,
+    "width": 232,
+    "height": 100,
+    "tabOrder": 1002
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "GTM Shortlist Firms"
+                }
+              },
+              "queryRef": "Companies.GTM Shortlist Firms",
+              "nativeQueryRef": "GTM Shortlist Firms"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'GTM shortlist'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,15 @@
+relationship 3208b387-9d2d-55b3-b3d7-ef7d4288ef2c
+	fromColumn: CompanyServices.'Company ID'
+	toColumn: Companies.'Company ID'
+
+relationship f887a229-b4a6-5df4-874b-a673d66b50dc
+	fromColumn: ResearchConfidence.'Company ID'
+	toColumn: Companies.'Company ID'
+
+relationship e180014f-85c6-5918-9fb2-708dfeaafae8
+	fromColumn: SiemPlatforms.'Company ID'
+	toColumn: Companies.'Company ID'
+
+relationship d021557e-e1d0-50a4-876b-9bbd69bf0995
+	fromColumn: FundingRounds.'Company ID'
+	toColumn: Companies.'Company ID'

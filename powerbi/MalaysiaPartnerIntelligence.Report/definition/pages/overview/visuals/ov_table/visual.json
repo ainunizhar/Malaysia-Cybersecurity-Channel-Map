@@ -1,0 +1,134 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ov_table",
+  "position": {
+    "x": 850,
+    "y": 210,
+    "z": 1000,
+    "width": 410,
+    "height": 490,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Company"
+                }
+              },
+              "queryRef": "Companies.Company",
+              "nativeQueryRef": "Company"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "Companies.Segment",
+              "nativeQueryRef": "Segment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "HQ Country"
+                }
+              },
+              "queryRef": "Companies.HQ Country",
+              "nativeQueryRef": "HQ Country"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Gap Count"
+                }
+              },
+              "queryRef": "Companies.Gap Count",
+              "nativeQueryRef": "Gap Count"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "GTM Model"
+                }
+              },
+              "queryRef": "Companies.GTM Model",
+              "nativeQueryRef": "GTM Model"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Companies"
+                  }
+                },
+                "Property": "Company"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Firms'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

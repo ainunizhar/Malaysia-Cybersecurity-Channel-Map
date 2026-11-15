@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "overview",
+    "services_gap",
+    "siem_platforms",
+    "go_to_market",
+    "funding",
+    "research_quality",
+    "company_detail"
+  ],
+  "activePageName": "overview"
+}

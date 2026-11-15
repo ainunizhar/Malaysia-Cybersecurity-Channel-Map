@@ -1,0 +1,67 @@
+table ResearchConfidence
+	lineageTag: 8a62d6ef-31b0-5146-bd1a-49cf22a3f929
+
+	measure Ratings = COUNTROWS ( ResearchConfidence )
+		formatString: #,0
+		lineageTag: 94587c52-6857-5c8f-bfbc-697ca53fe389
+
+	measure 'High Confidence %' = DIVIDE ( CALCULATE ( [Ratings], ResearchConfidence[Confidence] = "High" ), CALCULATE ( [Ratings], ResearchConfidence[Confidence] <> "Not rated" ) )
+		formatString: 0%
+		lineageTag: bea1c20e-2ce9-5f93-b02c-a062c475d823
+
+	column 'Company ID'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 5a336e47-bca9-59b6-9bc6-4d9c84be3ffe
+		summarizeBy: none
+		sourceColumn: Company ID
+
+	column 'Research Area'
+		dataType: string
+		lineageTag: 46456b78-f942-5047-9bd7-1c69bcf0b841
+		summarizeBy: none
+		sourceColumn: Research Area
+		sortByColumn: 'Area Order'
+
+	column 'Area Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 343d5703-cae6-5495-bbc2-f6ea70d6ff3f
+		summarizeBy: none
+		sourceColumn: Area Order
+
+	column Confidence
+		dataType: string
+		lineageTag: 673d1f6b-deb5-5359-b66b-14f3766ee6c0
+		summarizeBy: none
+		sourceColumn: Confidence
+		sortByColumn: 'Confidence Order'
+
+	column 'Confidence Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: ad67fc8d-065c-5b2c-b81e-500efd531fce
+		summarizeBy: none
+		sourceColumn: Confidence Order
+
+	partition ResearchConfidence = m
+		mode: import
+		source =
+				let
+				    Source = Companies,
+				    Kept = Table.SelectColumns(Source, {"Company ID", "Segment Confidence", "Services Confidence", "SIEM Confidence", "Funding Confidence", "GTM Confidence"}),
+				    Unpivoted = Table.UnpivotOtherColumns(Kept, {"Company ID"}, "Area Column", "Confidence"),
+				    Lookup = #table(type table [Area Column = text, Research Area = text, Area Order = Int64.Type], {{"Segment Confidence", "Segmentation", 1}, {"Services Confidence", "Services Gap", 2}, {"SIEM Confidence", "SIEM Platform", 3}, {"Funding Confidence", "Funding", 4}, {"GTM Confidence", "Go-to-Market", 5}}),
+				    Joined = Table.NestedJoin(Unpivoted, {"Area Column"}, Lookup, {"Area Column"}, "L", JoinKind.LeftOuter),
+				    Expanded = Table.ExpandTableColumn(Joined, "L", {"Research Area", "Area Order"}),
+				    Labelled = Table.TransformColumns(Expanded, {{"Confidence", each if _ = "N/A" or _ = "" then "Not rated" else _, type text}}),
+				    WithOrder = Table.AddColumn(Labelled, "Confidence Order", each List.PositionOf({"High", "Medium-High", "Medium", "Low-Medium", "Low", "Not rated"}, [Confidence]) + 1, Int64.Type),
+				    Result = Table.SelectColumns(WithOrder, {"Company ID", "Research Area", "Area Order", "Confidence", "Confidence Order"}),
+				    Typed = Table.TransformColumnTypes(Result, {{"Company ID", Int64.Type}, {"Research Area", type text}, {"Area Order", Int64.Type}, {"Confidence", type text}, {"Confidence Order", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

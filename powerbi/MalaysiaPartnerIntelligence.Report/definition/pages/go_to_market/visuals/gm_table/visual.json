@@ -1,0 +1,148 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "gm_table",
+  "position": {
+    "x": 660,
+    "y": 430,
+    "z": 1000,
+    "width": 600,
+    "height": 270,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Company"
+                }
+              },
+              "queryRef": "Companies.Company",
+              "nativeQueryRef": "Company"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Segment Detail"
+                }
+              },
+              "queryRef": "Companies.Segment Detail",
+              "nativeQueryRef": "Segment Detail"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "GTM Model"
+                }
+              },
+              "queryRef": "Companies.GTM Model",
+              "nativeQueryRef": "GTM Model"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "GTM Confidence"
+                }
+              },
+              "queryRef": "Companies.GTM Confidence",
+              "nativeQueryRef": "GTM Confidence"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Partner Evidence Items"
+                }
+              },
+              "queryRef": "Companies.Partner Evidence Items",
+              "nativeQueryRef": "Partner Evidence Items"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Direct Evidence Items"
+                }
+              },
+              "queryRef": "Companies.Direct Evidence Items",
+              "nativeQueryRef": "Direct Evidence Items"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Companies"
+                  }
+                },
+                "Property": "GTM Model"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'GTM classification'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,4 @@
+expression DataFolder = "C:\Portfolio\malaysia-partner-intelligence\data\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 63aba15c-c1ff-5dec-b879-a23fafb9b19b
+
+	annotation PBI_ResultType = Text

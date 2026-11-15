@@ -1,0 +1,55 @@
+table SiemPlatforms
+	lineageTag: 991f97f8-d09d-58b0-ab0e-1f14e635fc9f
+
+	measure 'Firms On Platform' = DISTINCTCOUNT ( SiemPlatforms[Company ID] )
+		formatString: #,0
+		lineageTag: b5848435-18fc-56ac-a765-de112b7764d4
+
+	measure 'Platform Mentions' = COUNTROWS ( SiemPlatforms )
+		formatString: #,0
+		lineageTag: 3b753655-b2f8-54b0-ac32-f13ac8ec67df
+
+	column 'Company ID'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 0c3dc14a-2a6d-5ea5-bf2b-e912f66a9fbd
+		summarizeBy: none
+		sourceColumn: Company ID
+
+	column Company
+		dataType: string
+		lineageTag: 74204a17-d42e-5d35-b829-a7c2cf189b96
+		summarizeBy: none
+		sourceColumn: Company
+
+	column 'Platform As Recorded'
+		dataType: string
+		lineageTag: a4f777f7-c5fe-5479-872d-2ccc0cb063a6
+		summarizeBy: none
+		sourceColumn: Platform As Recorded
+
+	column Platform
+		dataType: string
+		lineageTag: a9dda914-7793-5d41-960c-3441b139ef98
+		summarizeBy: none
+		sourceColumn: Platform
+
+	column 'Stated As Likely'
+		dataType: string
+		lineageTag: 1f496d8c-3906-5862-b001-146081f44e60
+		summarizeBy: none
+		sourceColumn: Stated As Likely
+
+	partition SiemPlatforms = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "malaysia_siem_platforms.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Blanks = Table.ReplaceValue(Promoted, "", null, Replacer.ReplaceValue, {"Company ID"}),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"Company ID", Int64.Type}, {"Company", type text}, {"Platform As Recorded", type text}, {"Platform", type text}, {"Stated As Likely", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
