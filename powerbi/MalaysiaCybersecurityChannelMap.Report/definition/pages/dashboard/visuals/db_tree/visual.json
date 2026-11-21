@@ -1,0 +1,182 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "db_tree",
+  "position": {
+    "x": 24,
+    "y": 254,
+    "z": 1200,
+    "width": 600,
+    "height": 418,
+    "tabOrder": 1200
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Firms"
+                }
+              },
+              "queryRef": "Companies.Firms",
+              "nativeQueryRef": "Firms"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "Companies.Segment",
+              "nativeQueryRef": "Segment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "GTM Model"
+                }
+              },
+              "queryRef": "Companies.GTM Model",
+              "nativeQueryRef": "GTM Model"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "SIEM Finding"
+                }
+              },
+              "queryRef": "Companies.SIEM Finding",
+              "nativeQueryRef": "SIEM Finding"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Market Focus"
+                }
+              },
+              "queryRef": "Companies.Market Focus",
+              "nativeQueryRef": "Market Focus"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "HQ Country"
+                }
+              },
+              "queryRef": "Companies.HQ Country",
+              "nativeQueryRef": "HQ Country"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Cyber Practice"
+                }
+              },
+              "queryRef": "Companies.Cyber Practice",
+              "nativeQueryRef": "Cyber Practice"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Companies"
+                    }
+                  },
+                  "Property": "Gap Band"
+                }
+              },
+              "queryRef": "Companies.Gap Band",
+              "nativeQueryRef": "Gap Band"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'PARTNER MAP'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Click  +  to break the firms down by any field, in any order'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,608 @@
+table Companies
+	lineageTag: f2784d8a-7af8-5dba-b61e-cf73cfa92163
+
+	measure Firms = COUNTROWS ( Companies )
+		formatString: #,0
+		lineageTag: 5e8d98a4-9681-516f-8c2e-909b6a861b2c
+
+	measure 'Cyber Practice Firms' = CALCULATE ( [Firms], Companies[Cyber Practice] = "Yes" )
+		formatString: #,0
+		lineageTag: 5f5eda93-3ffa-5e5a-bbfe-1983c523a801
+
+	measure 'Cyber Practice (Yes or Partial) %' = DIVIDE ( CALCULATE ( [Firms], Companies[Cyber Practice] IN { "Yes", "Partial" } ), [Firms] )
+		formatString: 0%
+		lineageTag: ac5b19ec-9cb1-5cb8-b1c4-523657e2ee08
+
+	measure 'GTM Shortlist Firms' = CALCULATE ( [Firms], Companies[GTM Shortlist] = "Yes" )
+		formatString: #,0
+		lineageTag: c89d7ae6-ea00-5da4-8116-473c7f5f8947
+
+	measure 'Avg Missing Services' = AVERAGE ( Companies[Gap Count] )
+		formatString: 0.0
+		lineageTag: 2ee8c513-55ee-5f82-a8ed-f3cc200ddbfd
+
+	measure 'Narrow Portfolio Firms' = CALCULATE ( [Firms], Companies[Gap Band Order] = 3 )
+		formatString: #,0
+		lineageTag: 4d2fd86f-a4f1-54c5-bb05-88b643086d40
+
+	measure 'Services Not Verified' = CALCULATE ( [Firms], Companies[Gap Band] = "Not verified" )
+		formatString: #,0
+		lineageTag: 7e9926ad-d9f8-5834-a25e-c09056d23dbd
+
+	measure 'SIEM Confirmed' = CALCULATE ( [Firms], Companies[SIEM Finding] = "Confirmed" )
+		formatString: #,0
+		lineageTag: c288f6c3-c3b6-50a0-86ad-f8bc70154165
+
+	measure 'SIEM None Identified' = CALCULATE ( [Firms], Companies[SIEM Finding] = "None identified" )
+		formatString: #,0
+		lineageTag: 425b8130-fc23-5a71-a0a1-787e251d6f08
+
+	measure 'SIEM Unverified' = CALCULATE ( [Firms], Companies[SIEM Finding] = "Unverified" )
+		formatString: #,0
+		lineageTag: 9e53cd1b-8692-5cf9-a05d-84824b3092a8
+
+	measure 'Multiple SIEM Platforms' = CALCULATE ( [Firms], Companies[Multiple Platforms] = "Yes" )
+		formatString: #,0
+		lineageTag: 6f713263-5e5f-5dbb-b957-e0a04a705c5c
+
+	measure 'Direct GTM' = CALCULATE ( [Firms], Companies[GTM Model] = "Direct" )
+		formatString: #,0
+		lineageTag: 62190b95-0278-5f0d-9778-8170a4869b22
+
+	measure 'Partner-led or Hybrid' = CALCULATE ( [Firms], Companies[GTM Model] IN { "Partner-led", "Hybrid" } )
+		formatString: #,0
+		lineageTag: d6535afa-373a-5390-ac86-f81af32cabb8
+
+	measure 'GTM Unknown' = CALCULATE ( [Firms], Companies[GTM Model] = "Unknown" )
+		formatString: #,0
+		lineageTag: 01299834-acbc-5e14-885a-7527ac8236aa
+
+	measure 'GTM Evidence Items' = SUM ( Companies[Partner Evidence Items] ) + SUM ( Companies[Direct Evidence Items] )
+		formatString: #,0
+		lineageTag: 9e4085e3-7456-505b-b2d5-03ade32c2fb4
+
+	measure 'Firms With Funding Rounds' = CALCULATE ( [Firms], Companies[Funding Rounds] > 0 )
+		formatString: #,0
+		lineageTag: 258190cc-4c61-5c70-83a5-9024b1eae45a
+
+	measure 'Listed Firms' = CALCULATE ( [Firms], Companies[Listed] = "Yes" )
+		formatString: #,0
+		lineageTag: 8f574d6f-7703-583f-ba2f-2fd3334f1310
+
+	measure 'GLC Firms' = CALCULATE ( [Firms], Companies[GLC] = "Yes" )
+		formatString: #,0
+		lineageTag: 3b6f3661-a3a5-535e-b621-98383ea9b86a
+
+	measure 'Decision Maker Found %' = DIVIDE ( CALCULATE ( [Firms], Companies[Decision Maker Found] = "Yes" ), [Firms] )
+		formatString: 0%
+		lineageTag: 9d5f32ed-9be8-50f0-b3dc-76b0d5efcc0f
+
+	measure 'Conflict Flags' = CALCULATE ( [Firms], Companies[Conflict Flag] = "Yes" )
+		formatString: #,0
+		lineageTag: c4ff425d-d3c5-59bf-a107-db38e0de6d10
+
+	measure 'Segmentation Overrides' = CALCULATE ( [Firms], Companies[Segmentation Override] = "Yes" )
+		formatString: #,0
+		lineageTag: 0b93bd3e-ad6b-5dfd-999e-1d6e7338d830
+
+	measure 'HQ Countries' = DISTINCTCOUNT ( Companies[HQ Country] )
+		formatString: #,0
+		lineageTag: 4c216e28-fb7a-51db-94b4-9bbbaeccb316
+
+	measure 'Firm Name' = SELECTEDVALUE ( Companies[Company], "Several firms" )
+		lineageTag: f54c5531-4be2-5874-86b5-a1fd4c451481
+
+	measure 'KPI Sub Firms' = "MY HQ " & FORMAT ( CALCULATE ( [Firms], Companies[HQ Country] = "Malaysia" ) + 0, "#,0" ) & "   ·   SG HQ " & FORMAT ( CALCULATE ( [Firms], Companies[HQ Country] = "Singapore" ) + 0, "#,0" )
+		lineageTag: b4f04295-294f-5ece-a867-d1c98f02f204
+
+	measure 'KPI Sub Cyber' = FORMAT ( [Cyber Practice Firms] + 0, "#,0" ) & " full   ·   " & FORMAT ( CALCULATE ( [Firms], Companies[Cyber Practice] = "Partial" ) + 0, "#,0" ) & " partial practice"
+		lineageTag: 1fc8536c-f0da-5488-90cc-5b8f7470919d
+
+	measure 'KPI Sub Shortlist' = FORMAT ( DIVIDE ( [GTM Shortlist Firms], [Firms] ), "0%" ) & " of firms researched"
+		lineageTag: 969f606b-a312-5c61-85a4-9db01a9b015c
+
+	measure 'KPI Sub SIEM' = FORMAT ( [Multiple SIEM Platforms] + 0, "#,0" ) & " run more than one platform"
+		lineageTag: 3f567f6c-d964-580f-b2ab-63381a2792ed
+
+	measure 'KPI Sub Narrow' = "missing 7 to 9 of the 9 services"
+		lineageTag: 819bc80f-f0b4-5f61-9528-a90702ef9754
+
+	column 'Company ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a03b93e-aa53-504c-b73b-aee7d803c129
+		summarizeBy: none
+		sourceColumn: Company ID
+
+	column Company
+		dataType: string
+		lineageTag: 7673decd-c31a-54e9-a2fe-72d85ed8de64
+		summarizeBy: none
+		sourceColumn: Company
+
+	column Website
+		dataType: string
+		lineageTag: 4979f4fe-dd93-51f4-b2d1-51277de86b04
+		summarizeBy: none
+		sourceColumn: Website
+
+	column 'HQ Country'
+		dataType: string
+		lineageTag: a25ea503-6c73-58c5-9208-7904ad6a4aef
+		summarizeBy: none
+		sourceColumn: HQ Country
+
+	column 'HQ Location'
+		dataType: string
+		lineageTag: 8490da4c-a064-5928-957e-4f3c495536bc
+		summarizeBy: none
+		sourceColumn: HQ Location
+
+	column Industries
+		dataType: string
+		lineageTag: 41c93f6c-5866-50da-a75d-1dbc63b3e982
+		summarizeBy: none
+		sourceColumn: Industries
+
+	column Description
+		dataType: string
+		lineageTag: 411e82d6-3549-5914-832a-bc0228d45d5e
+		summarizeBy: none
+		sourceColumn: Description
+
+	column 'Founded Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 76399fe9-726f-5e7c-b5aa-578f1491538c
+		summarizeBy: none
+		sourceColumn: Founded Year
+
+	column 'Employee Range'
+		dataType: string
+		lineageTag: 36d42aeb-06ef-5bcd-8abd-bcd78ec2d1f9
+		summarizeBy: none
+		sourceColumn: Employee Range
+		sortByColumn: 'Employee Range Order'
+
+	column 'Employee Range Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 7081a293-d844-526e-91fa-1f7e073d81f4
+		summarizeBy: none
+		sourceColumn: Employee Range Order
+
+	column 'Estimated Revenue Range'
+		dataType: string
+		lineageTag: fd7f238a-328f-5a57-889e-0a3b549ad0e1
+		summarizeBy: none
+		sourceColumn: Estimated Revenue Range
+		sortByColumn: 'Revenue Range Order'
+
+	column 'Revenue Range Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 6c4b802d-327a-5418-b4e0-07e7dfa96c94
+		summarizeBy: none
+		sourceColumn: Revenue Range Order
+
+	column 'Operating Status'
+		dataType: string
+		lineageTag: 66f6c1e5-8295-56eb-851c-b95125d0e9a0
+		summarizeBy: none
+		sourceColumn: Operating Status
+
+	column Segment
+		dataType: string
+		lineageTag: abfbe923-c215-5daf-8c66-e98e6bdc4a1f
+		summarizeBy: none
+		sourceColumn: Segment
+
+	column 'Segment Detail'
+		dataType: string
+		lineageTag: eff4bf60-8e06-5820-8104-eeb4760f9969
+		summarizeBy: none
+		sourceColumn: Segment Detail
+
+	column 'GTM Shortlist'
+		dataType: string
+		lineageTag: 7d35cf6e-69dd-519b-9071-9140e5223551
+		summarizeBy: none
+		sourceColumn: GTM Shortlist
+
+	column 'Primary Segment'
+		dataType: string
+		lineageTag: f1428006-e4f6-520e-975a-13e7b3d8c7b9
+		summarizeBy: none
+		sourceColumn: Primary Segment
+
+	column 'Hybrid Flag'
+		dataType: string
+		lineageTag: 5f87d2df-3c5d-5642-ada0-d77f7f1430fe
+		summarizeBy: none
+		sourceColumn: Hybrid Flag
+
+	column 'Cyber Practice'
+		dataType: string
+		lineageTag: a46da836-e0de-5702-9c74-8246722eba57
+		summarizeBy: none
+		sourceColumn: Cyber Practice
+
+	column 'Market Focus'
+		dataType: string
+		lineageTag: 45a90ac6-899e-5e5a-bd58-13a2af426cdc
+		summarizeBy: none
+		sourceColumn: Market Focus
+
+	column 'Geographic Focus'
+		dataType: string
+		lineageTag: 6cc6bd33-bfdb-5644-af14-b074f25f08ba
+		summarizeBy: none
+		sourceColumn: Geographic Focus
+
+	column 'MSC Status'
+		dataType: string
+		lineageTag: dffc3c38-7af2-5eb5-acc9-49fa9e0df2c9
+		summarizeBy: none
+		sourceColumn: MSC Status
+
+	column 'Segment Confidence'
+		dataType: string
+		lineageTag: f8acee1d-68c7-5f4d-a2ec-380becc10b7a
+		summarizeBy: none
+		sourceColumn: Segment Confidence
+
+	column 'Segment Evidence URL'
+		dataType: string
+		lineageTag: c382ddbf-1edc-598f-9c68-21f138884134
+		summarizeBy: none
+		sourceColumn: Segment Evidence URL
+
+	column 'Segment Evidence Note'
+		dataType: string
+		lineageTag: 62cfd5a7-c8a0-5c33-97b6-94083f17d1ae
+		summarizeBy: none
+		sourceColumn: Segment Evidence Note
+
+	column 'Services Research Status'
+		dataType: string
+		lineageTag: fdb1352b-75de-5b41-ad4c-65360af57cf7
+		summarizeBy: none
+		sourceColumn: Services Research Status
+
+	column DF
+		dataType: string
+		lineageTag: b3ef7d47-8c6a-5593-b37c-f0004072ea06
+		summarizeBy: none
+		sourceColumn: DF
+
+	column IR
+		dataType: string
+		lineageTag: 55f0adbd-225a-5b16-bf34-4b892d38df49
+		summarizeBy: none
+		sourceColumn: IR
+
+	column DFIR
+		dataType: string
+		lineageTag: b4c838ab-3847-5faa-b94f-6cc9b09b895d
+		summarizeBy: none
+		sourceColumn: DFIR
+
+	column 'MDR/EDR'
+		dataType: string
+		lineageTag: b3c659dc-c51e-53f5-b8c6-41a5fb03ab8b
+		summarizeBy: none
+		sourceColumn: MDR/EDR
+
+	column XDR
+		dataType: string
+		lineageTag: 025732af-fec3-56cb-b70f-4f326595066b
+		summarizeBy: none
+		sourceColumn: XDR
+
+	column SIEM
+		dataType: string
+		lineageTag: 41694127-9d90-59a1-ae38-b2a77af13ded
+		summarizeBy: none
+		sourceColumn: SIEM
+
+	column 'VA/Pen Test'
+		dataType: string
+		lineageTag: a4d0fafd-55be-5d58-b7ab-af7038f2e8d6
+		summarizeBy: none
+		sourceColumn: VA/Pen Test
+
+	column 'SOC-as-a-Service'
+		dataType: string
+		lineageTag: 234a59cb-1655-5b45-9a46-bcb9a81a90d4
+		summarizeBy: none
+		sourceColumn: SOC-as-a-Service
+
+	column 'Compromise Assessment'
+		dataType: string
+		lineageTag: f4c6fad7-3a7f-5d2d-b49d-a26704d8dbde
+		summarizeBy: none
+		sourceColumn: Compromise Assessment
+
+	column 'Services Offered'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0a85ab31-eae6-5911-af08-01055d21d318
+		summarizeBy: none
+		sourceColumn: Services Offered
+
+	column 'Gap Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: d86b5cbd-0150-5d03-ac6a-fcfe6e7b7d9b
+		summarizeBy: none
+		sourceColumn: Gap Count
+
+	column 'Gap Band'
+		dataType: string
+		lineageTag: 75d9d308-fb56-52a3-b68f-67b26303bcf2
+		summarizeBy: none
+		sourceColumn: Gap Band
+		sortByColumn: 'Gap Band Order'
+
+	column 'Gap Band Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 0ff034e6-edbb-5fc5-9747-814c07baf251
+		summarizeBy: none
+		sourceColumn: Gap Band Order
+
+	column 'Gap Services'
+		dataType: string
+		lineageTag: 443a79bb-c04f-5cb1-94e1-fd2cb2d03c53
+		summarizeBy: none
+		sourceColumn: Gap Services
+
+	column 'Conflict Flag'
+		dataType: string
+		lineageTag: ce649efc-0d95-59cc-997d-05b2f69e8a69
+		summarizeBy: none
+		sourceColumn: Conflict Flag
+
+	column 'Segmentation Override'
+		dataType: string
+		lineageTag: cecd33db-a166-55e0-895f-dc126bb7894f
+		summarizeBy: none
+		sourceColumn: Segmentation Override
+
+	column 'Services Confidence'
+		dataType: string
+		lineageTag: 8a2bcc23-9f10-5aea-98da-771188d1f558
+		summarizeBy: none
+		sourceColumn: Services Confidence
+
+	column 'Services Evidence URL'
+		dataType: string
+		lineageTag: a10a09d8-015b-5c67-9675-23db4a36e708
+		summarizeBy: none
+		sourceColumn: Services Evidence URL
+
+	column 'Services Evidence Note'
+		dataType: string
+		lineageTag: af7d13bc-9123-5257-adfb-775ba7f56d22
+		summarizeBy: none
+		sourceColumn: Services Evidence Note
+
+	column 'SIEM Finding'
+		dataType: string
+		lineageTag: 39782d27-4616-5667-965e-719f056f0149
+		summarizeBy: none
+		sourceColumn: SIEM Finding
+
+	column 'SIEM Platforms'
+		dataType: string
+		lineageTag: 08b7c09b-8e0b-5f77-8e9d-49080d0a3be5
+		summarizeBy: none
+		sourceColumn: SIEM Platforms
+
+	column 'Platform Vendors'
+		dataType: string
+		lineageTag: 23f057b4-8688-5015-bf78-3ced65b37956
+		summarizeBy: none
+		sourceColumn: Platform Vendors
+
+	column 'Platform Category'
+		dataType: string
+		lineageTag: 53d6c855-9984-50c3-8a23-b8d15b8b4aae
+		summarizeBy: none
+		sourceColumn: Platform Category
+
+	column 'Relationship Type'
+		dataType: string
+		lineageTag: 3e9bc8d9-a5e0-557b-a230-44e7a7874302
+		summarizeBy: none
+		sourceColumn: Relationship Type
+
+	column 'Signal Source'
+		dataType: string
+		lineageTag: a4a103a5-d91f-5953-b27f-2f66737ce45a
+		summarizeBy: none
+		sourceColumn: Signal Source
+
+	column 'Multiple Platforms'
+		dataType: string
+		lineageTag: 4560f283-9d0c-555a-b4a3-2318b1eb027f
+		summarizeBy: none
+		sourceColumn: Multiple Platforms
+
+	column 'SIEM Cross-check'
+		dataType: string
+		lineageTag: eb70ea51-38f1-5ee6-8c73-09226461bd06
+		summarizeBy: none
+		sourceColumn: SIEM Cross-check
+
+	column 'Evidence Layers'
+		dataType: string
+		lineageTag: ab7a9a1c-9028-520c-9ccb-4ce47364f39a
+		summarizeBy: none
+		sourceColumn: Evidence Layers
+
+	column 'SIEM Confidence'
+		dataType: string
+		lineageTag: 0ced2843-4f6a-5445-b5cc-0ad7e2fa9196
+		summarizeBy: none
+		sourceColumn: SIEM Confidence
+
+	column 'SIEM Evidence URL'
+		dataType: string
+		lineageTag: 17a6e313-55af-56b3-a0fa-abc98302dc8b
+		summarizeBy: none
+		sourceColumn: SIEM Evidence URL
+
+	column 'SIEM Evidence Note'
+		dataType: string
+		lineageTag: eec36f70-3de3-50a3-ae66-82a8c87a1169
+		summarizeBy: none
+		sourceColumn: SIEM Evidence Note
+
+	column 'Ownership Type'
+		dataType: string
+		lineageTag: 50a80761-3c56-5d22-ae43-1b0e95d572b1
+		summarizeBy: none
+		sourceColumn: Ownership Type
+
+	column 'Funding Status'
+		dataType: string
+		lineageTag: 67de6bca-51b7-5c16-a479-a79f89baba2e
+		summarizeBy: none
+		sourceColumn: Funding Status
+
+	column 'Funding Rounds'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a51e39e-e061-57f0-b430-5b28216ea120
+		summarizeBy: none
+		sourceColumn: Funding Rounds
+
+	column 'Total Funding Raised'
+		dataType: string
+		lineageTag: 72b47c78-e9f4-5ee1-8445-1683748a73e2
+		summarizeBy: none
+		sourceColumn: Total Funding Raised
+
+	column 'Latest Round Type'
+		dataType: string
+		lineageTag: b8dbebc3-5d57-5beb-ad4f-005025d00980
+		summarizeBy: none
+		sourceColumn: Latest Round Type
+
+	column 'Latest Round Amount'
+		dataType: string
+		lineageTag: c1854c0e-6383-59f3-b718-76509ecad702
+		summarizeBy: none
+		sourceColumn: Latest Round Amount
+
+	column 'Latest Round Date'
+		dataType: string
+		lineageTag: 1a4897bf-e960-5f01-8fe8-5dd0b940d4b5
+		summarizeBy: none
+		sourceColumn: Latest Round Date
+
+	column Listed
+		dataType: string
+		lineageTag: e615c8ef-f90f-5a64-982e-3d2d0c02662b
+		summarizeBy: none
+		sourceColumn: Listed
+
+	column 'Listing Detail'
+		dataType: string
+		lineageTag: 916b4977-8141-5f94-a2a1-b0780b1db37f
+		summarizeBy: none
+		sourceColumn: Listing Detail
+
+	column GLC
+		dataType: string
+		lineageTag: 571c582b-7538-53f4-a564-1b085a55702f
+		summarizeBy: none
+		sourceColumn: GLC
+
+	column 'Disclosed Revenue Range'
+		dataType: string
+		lineageTag: cfd3b318-2eba-5da4-94da-2fa0721e333b
+		summarizeBy: none
+		sourceColumn: Disclosed Revenue Range
+
+	column 'Financial Health'
+		dataType: string
+		lineageTag: 2a69db4f-bfe4-5fb6-a00e-1c0a1bdbfb50
+		summarizeBy: none
+		sourceColumn: Financial Health
+
+	column 'Funding Confidence'
+		dataType: string
+		lineageTag: a2b10299-c133-55bb-b297-aa8a5384ebf8
+		summarizeBy: none
+		sourceColumn: Funding Confidence
+
+	column 'Funding Evidence URL'
+		dataType: string
+		lineageTag: d4e42fd1-e30b-50fb-bbb7-f223fc66bbee
+		summarizeBy: none
+		sourceColumn: Funding Evidence URL
+
+	column 'GTM Model'
+		dataType: string
+		lineageTag: 83093518-4e19-530c-b081-44e6279cb80d
+		summarizeBy: none
+		sourceColumn: GTM Model
+
+	column 'GTM Confidence'
+		dataType: string
+		lineageTag: 850f80f2-61fa-5090-bd14-337badc403b3
+		summarizeBy: none
+		sourceColumn: GTM Confidence
+
+	column 'GTM Basis'
+		dataType: string
+		lineageTag: 04d521e6-e103-528a-b13d-c0ab1c8c661e
+		summarizeBy: none
+		sourceColumn: GTM Basis
+
+	column 'Partner Evidence Items'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ca638fd-649c-5949-aef7-7f40b64ab695
+		summarizeBy: none
+		sourceColumn: Partner Evidence Items
+
+	column 'Direct Evidence Items'
+		dataType: int64
+		formatString: 0
+		lineageTag: 92015c51-14b1-5b18-95c4-cb733941c1f9
+		summarizeBy: none
+		sourceColumn: Direct Evidence Items
+
+	column 'Decision Makers Found'
+		dataType: int64
+		formatString: 0
+		lineageTag: bb6585d6-95fa-54b3-9a68-5174d16ae839
+		summarizeBy: none
+		sourceColumn: Decision Makers Found
+
+	column 'Decision Maker Found'
+		dataType: string
+		lineageTag: 8201e35b-16bf-5e84-b66d-2010724cde1d
+		summarizeBy: none
+		sourceColumn: Decision Maker Found
+
+	partition Companies = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "malaysia_companies.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Blanks = Table.ReplaceValue(Promoted, "", null, Replacer.ReplaceValue, {"Company ID", "Founded Year", "Employee Range Order", "Revenue Range Order", "Services Offered", "Gap Count", "Gap Band Order", "Funding Rounds", "Partner Evidence Items", "Direct Evidence Items", "Decision Makers Found"}),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"Company ID", Int64.Type}, {"Company", type text}, {"Website", type text}, {"HQ Country", type text}, {"HQ Location", type text}, {"Industries", type text}, {"Description", type text}, {"Founded Year", Int64.Type}, {"Employee Range", type text}, {"Employee Range Order", Int64.Type}, {"Estimated Revenue Range", type text}, {"Revenue Range Order", Int64.Type}, {"Operating Status", type text}, {"Segment", type text}, {"Segment Detail", type text}, {"GTM Shortlist", type text}, {"Primary Segment", type text}, {"Hybrid Flag", type text}, {"Cyber Practice", type text}, {"Market Focus", type text}, {"Geographic Focus", type text}, {"MSC Status", type text}, {"Segment Confidence", type text}, {"Segment Evidence URL", type text}, {"Segment Evidence Note", type text}, {"Services Research Status", type text}, {"DF", type text}, {"IR", type text}, {"DFIR", type text}, {"MDR/EDR", type text}, {"XDR", type text}, {"SIEM", type text}, {"VA/Pen Test", type text}, {"SOC-as-a-Service", type text}, {"Compromise Assessment", type text}, {"Services Offered", Int64.Type}, {"Gap Count", Int64.Type}, {"Gap Band", type text}, {"Gap Band Order", Int64.Type}, {"Gap Services", type text}, {"Conflict Flag", type text}, {"Segmentation Override", type text}, {"Services Confidence", type text}, {"Services Evidence URL", type text}, {"Services Evidence Note", type text}, {"SIEM Finding", type text}, {"SIEM Platforms", type text}, {"Platform Vendors", type text}, {"Platform Category", type text}, {"Relationship Type", type text}, {"Signal Source", type text}, {"Multiple Platforms", type text}, {"SIEM Cross-check", type text}, {"Evidence Layers", type text}, {"SIEM Confidence", type text}, {"SIEM Evidence URL", type text}, {"SIEM Evidence Note", type text}, {"Ownership Type", type text}, {"Funding Status", type text}, {"Funding Rounds", Int64.Type}, {"Total Funding Raised", type text}, {"Latest Round Type", type text}, {"Latest Round Amount", type text}, {"Latest Round Date", type text}, {"Listed", type text}, {"Listing Detail", type text}, {"GLC", type text}, {"Disclosed Revenue Range", type text}, {"Financial Health", type text}, {"Funding Confidence", type text}, {"Funding Evidence URL", type text}, {"GTM Model", type text}, {"GTM Confidence", type text}, {"GTM Basis", type text}, {"Partner Evidence Items", Int64.Type}, {"Direct Evidence Items", Int64.Type}, {"Decision Makers Found", Int64.Type}}, "en-US"),
+
+				    WithDM = Table.AddColumn(Typed, "Decision Maker Found", each if [Decision Makers Found] = null or [Decision Makers Found] = 0 then "No" else "Yes", type text)
+				in
+				    WithDM
+
+	annotation PBI_ResultType = Table
