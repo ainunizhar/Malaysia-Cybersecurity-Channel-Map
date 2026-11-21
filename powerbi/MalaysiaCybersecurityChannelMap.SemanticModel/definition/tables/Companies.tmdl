@@ -92,7 +92,7 @@ table Companies
 	measure 'Firm Name' = SELECTEDVALUE ( Companies[Company], "Several firms" )
 		lineageTag: f54c5531-4be2-5874-86b5-a1fd4c451481
 
-	measure 'KPI Sub Firms' = "MY HQ " & FORMAT ( CALCULATE ( [Firms], Companies[HQ Country] = "Malaysia" ) + 0, "#,0" ) & "   ·   SG HQ " & FORMAT ( CALCULATE ( [Firms], Companies[HQ Country] = "Singapore" ) + 0, "#,0" )
+	measure 'KPI Sub Firms' = "MY HQ " & FORMAT ( CALCULATE ( [Firms], KEEPFILTERS ( Companies[HQ Country] = "Malaysia" ) ) + 0, "#,0" ) & "   ·   SG HQ " & FORMAT ( CALCULATE ( [Firms], KEEPFILTERS ( Companies[HQ Country] = "Singapore" ) ) + 0, "#,0" )
 		lineageTag: b4f04295-294f-5ece-a867-d1c98f02f204
 
 	measure 'KPI Sub Cyber' = FORMAT ( [Cyber Practice Firms] + 0, "#,0" ) & " full   ·   " & FORMAT ( CALCULATE ( [Firms], Companies[Cyber Practice] = "Partial" ) + 0, "#,0" ) & " partial practice"

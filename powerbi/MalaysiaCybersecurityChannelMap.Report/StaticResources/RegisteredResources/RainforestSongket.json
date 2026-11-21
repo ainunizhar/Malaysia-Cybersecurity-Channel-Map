@@ -149,6 +149,7 @@
                 "color": "#11291F"
               }
             },
+            "transparency": 0,
             "fontSize": 12,
             "fontFamily": "Segoe UI"
           }
